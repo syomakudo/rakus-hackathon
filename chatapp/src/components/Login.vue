@@ -31,7 +31,6 @@ const onEnter = () => {
 
   // 入室メッセージを送信
   message.entryMessage = inputUserName.value + "さんが入室しました。";
-  console.log(message.entryMessage);
   socket.emit("enterEvent", message.entryMessage);
 
   // 全体で使用するnameに入力されたユーザー名を格納

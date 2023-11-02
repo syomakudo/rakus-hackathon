@@ -64,8 +64,6 @@ const onReceivePublish = (data) => {
 // #region local methods
 // イベント登録をまとめる
 const registerSocketEvent = () => {
-  // 自クライアントの接続イベント（enterEvent）を受信する
-  socket.emit("enterEvent", `${userName.value}さんが入室しました。`)
 
   // 入室イベントを受け取ったら実行
   console.log("registerSocketEvent");
@@ -111,7 +109,7 @@ const registerSocketEvent = () => {
       </div>
     </div>
     <router-link to="/" class="link">
-      <button type="button" class="button-normal button-exit">退室する</button>
+      <button type="button" class="button-normal button-exit" @click="onExit">退室する</button>
     </router-link>
   </div>
 </template>
