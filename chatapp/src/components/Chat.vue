@@ -1,24 +1,25 @@
 <script setup>
-import { inject, ref, reactive, onMounted } from "vue"
-import socketManager from '../socketManager.js'
+import { inject, ref, reactive, onMounted } from "vue";
+import socketManager from "../socketManager.js";
 
 // #region global state
-const userName = inject("userName")
+const userName = inject("userName");
 // #endregion
 
 // #region local variable
-const socket = socketManager.getInstance()
+const socket = socketManager.getInstance();
 // #endregion
 
 // #region reactive variable
-const chatContent = ref("")
-const chatList = reactive([])
+const chatContent = ref("");
+const chatList = reactive([]);
 // #endregion
 
 // #region lifecycle
 onMounted(() => {
-  registerSocketEvent()
-})
+  registerSocketEvent();
+  console.log("onMounted");
+});
 // #endregion
 
 // #region browser event handler
@@ -46,18 +47,18 @@ const onMemo = () => {
 // #region socket event handler
 // サーバから受信した入室メッセージ画面上に表示する
 const onReceiveEnter = (data) => {
-  chatList.push()
-}
+  chatList.push();
+};
 
 // サーバから受信した退室メッセージを受け取り画面上に表示する
 const onReceiveExit = (data) => {
-  chatList.push()
-}
+  chatList.push();
+};
 
 // サーバから受信した投稿メッセージを画面上に表示する
 const onReceivePublish = (data) => {
-  chatList.push()
-}
+  chatList.push();
+};
 // #endregion
 
 // #region local methods
@@ -67,6 +68,7 @@ const registerSocketEvent = () => {
   socket.emit("enterEvent", `${userName.value}さんが入室しました。`)
 
   // 入室イベントを受け取ったら実行
+  console.log("registerSocketEvent");
   socket.on("enterEvent", (data) => {
     chatList.unshift(data)
   })
@@ -102,12 +104,14 @@ const registerSocketEvent = () => {
       </div>
       <div class="mt-5" v-if="chatList.length !== 0">
         <ul>
-          <li class="item mt-4" v-for="(chat, i) in chatList" :key="i">{{ chat }}</li>
+          <li class="item mt-4" v-for="(chat, i) in chatList" :key="i">
+            {{ chat }}
+          </li>
         </ul>
       </div>
     </div>
     <router-link to="/" class="link">
-      <button type="button" class="button-normal button-exit" @click="onExit">退室する</button>
+      <button type="button" class="button-normal button-exit">退室する</button>
     </router-link>
   </div>
 </template>
