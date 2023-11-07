@@ -26,73 +26,89 @@ onMounted(() => {
 // 投稿メッセージをサーバに送信する
 const onPublish = () => {
   //3.投稿時刻を取得(YY/MM/DD hour:minute:second)
-  const dateobj = new Date()
-  const publishedTime = dateobj.getFullYear() + "/" + dateobj.getMonth() + "/" + dateobj.getDate() + " " + dateobj.getHours() + ":" + dateobj.getMinutes() + ":" + dateobj.getSeconds();
-  console.log(publishedTime)
+  const dateobj = new Date();
+  const publishedTime =
+    dateobj.getFullYear() +
+    "/" +
+    dateobj.getMonth() +
+    "/" +
+    dateobj.getDate() +
+    " " +
+    dateobj.getHours() +
+    ":" +
+    dateobj.getMinutes() +
+    ":" +
+    dateobj.getSeconds();
+  console.log(publishedTime);
 
-  socket.emit("publishEvent", `${userName.value}さん：${chatContent.value}`)
+  socket.emit("publishEvent", `${userName.value}さん：${chatContent.value}`);
   // 入力欄を初期化
-  chatContent.value = ""
-}
+  chatContent.value = "";
+  console.log(chatList);
+};
 
 // 退室メッセージをサーバに送信する
 const onExit = () => {
-  socket.emit("exitEvent", `${userName.value}さんが退出しました。`)
-}
+  socket.emit("exitEvent", `${userName.value}さんが退出しました。`);
+};
 
 // メモを画面上に表示する
 const onMemo = () => {
   // メモの内容を表示
-  chatList.unshift(`${userName.value}さんのメモ：${chatContent.value}`)
+  chatList.unshift(`${userName.value}さんのメモ：${chatContent.value}`);
   // 入力欄を初期化
-  chatContent.value = ""
-}
+  chatContent.value = "";
+};
 // #endregion
 
 // #region socket event handler
 // サーバから受信した入室メッセージ画面上に表示する
 const onReceiveEnter = (data) => {
-  chatList.push();
+  //chatList.push();
+  chatList.unshift(data);
 };
 
 // サーバから受信した退室メッセージを受け取り画面上に表示する
 const onReceiveExit = (data) => {
-  chatList.push();
+  //chatList.push();
+  chatList.unshift(data);
 };
 
 // サーバから受信した投稿メッセージを画面上に表示する
 const onReceivePublish = (data) => {
-  chatList.push();
+  //chatList.push();
+  chatList.unshift(data);
 };
 // #endregion
 
 // #region local methods
 // イベント登録をまとめる
 const registerSocketEvent = () => {
-
   // 入室イベントを受け取ったら実行
   console.log("registerSocketEvent");
   socket.on("enterEvent", (data) => {
-    chatList.unshift(data)
-  })
+    // chatList.unshift(data);
+    onReceiveEnter(data);
+  });
 
-  // 退室イベントを受け取ったら実行 
+  // 退室イベントを受け取ったら実行
   socket.on("exitEvent", (data) => {
-    chatList.unshift(data)
-  })
+    // chatList.unshift(data);
+    onReceiveExit(data);
+  });
 
   // 投稿イベントを受け取ったら実行
   socket.on("publishEvent", (data) => {
-    chatList.unshift(data)
-  })
-}
+    // chatList.unshift(data);
+    onReceivePublish(data);
+  });
+};
 // #endregion
 
 //8.チャット逆順
-const reverseChat = ()=>{
-  chatList.reverse()
-}
-
+const reverseChat = () => {
+  chatList.reverse();
+};
 </script>
 
 <template>
@@ -121,7 +137,9 @@ const reverseChat = ()=>{
       <button class="button-normal" @click="reverseChat">順番を変える</button>
     </div>
     <router-link to="/" class="link">
-      <button type="button" class="button-normal button-exit" @click="onExit">退室する</button>
+      <button type="button" class="button-normal button-exit" @click="onExit">
+        退室する
+      </button>
     </router-link>
   </div>
 </template>
