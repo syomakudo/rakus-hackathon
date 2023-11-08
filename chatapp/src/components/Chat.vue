@@ -109,6 +109,12 @@ const registerSocketEvent = () => {
 const reverseChat = () => {
   chatList.reverse();
 };
+
+//.文字サイズ変更
+const changeFontsize = () => {
+  const classNameUl = document.querySelector('ul');
+  classNameUl.classList.toggle("itemLarge");
+}
 </script>
 
 <template>
@@ -135,7 +141,8 @@ const reverseChat = () => {
         </ul>
       </div>
       <button class="button-normal" @click="reverseChat">順番を変える</button>
-    </div>
+      <button class="button-normal" @click="changeFontsize">文字サイズ</button>
+      </div>
     <router-link to="/" class="link">
       <button type="button" class="button-normal button-exit" @click="onExit">
         退室する
@@ -157,6 +164,10 @@ const reverseChat = () => {
 
 .item {
   display: block;
+}
+
+.itemLarge {
+  font-size: 25px;
 }
 
 .util-ml-8px {
