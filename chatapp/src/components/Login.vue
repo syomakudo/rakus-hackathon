@@ -44,10 +44,10 @@ const onEnter = () => {
 
 <template>
   <div class="mx-auto my-5 px-4">
-    <h1 class="text-h3 font-weight-medium">Family Chat</h1>
+    <h1 class="text-orange-darken-1 text-h3 font-weight-medium">Family Chat</h1>
     <div class="mt-10">
       <p>お名前</p>
-      <input type="text" class="user-name-text" v-model="inputUserName" />
+      <input type="text" class="user-name-text" placeholder="お名前を入力してください" v-model="inputUserName" />
     </div>
     <button type="button" @click="onEnter" class="button-normal">
       入室する
