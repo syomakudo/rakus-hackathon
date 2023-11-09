@@ -44,9 +44,9 @@ const onEnter = () => {
 
 <template>
   <div class="mx-auto my-5 px-4">
-    <h1 class="text-h3 font-weight-medium">Vue.js Chat サンプル</h1>
+    <h1 class="text-h3 font-weight-medium">Family Chat</h1>
     <div class="mt-10">
-      <p>ユーザー名</p>
+      <p>お名前</p>
       <input type="text" class="user-name-text" v-model="inputUserName" />
     </div>
     <button type="button" @click="onEnter" class="button-normal">
