@@ -151,6 +151,7 @@ const changeFontsize = () => {
 </script>
 
 <template>
+  <v-app><v-app-bar color="orange"><v-app-bar-title class="appbar">Chatルーム</v-app-bar-title></v-app-bar>
   <div class="mx-auto my-5 px-4">
     <h1 class="text-h3 font-weight-medium">Vue.js Chat チャットルーム</h1>
     <div class="mt-10">
@@ -169,7 +170,11 @@ const changeFontsize = () => {
       <div class="mt-5" v-if="chatList.length !== 0">
         <ul>
           <li class="item mt-4" v-for="(chat, i) in chatList" :key="chat.id">
-            {{ chat.text }}
+          <v-card
+            width="400"
+            >
+            <v-card-text>{{ chat.text }}</v-card-text>
+          </v-card>
             <button
               v-if="chat.userName === userName"
               @click="onCancelMessage(chat.id)"
@@ -188,6 +193,14 @@ const changeFontsize = () => {
       </button>
     </router-link>
   </div>
+  <v-text-field
+    clearable
+    label="Last name"
+    placeholder="chat"
+    persistent-clear
+    @click:clear="onClear"
+  ></v-text-field>
+  </v-app>
 </template>
 
 <style scoped>
@@ -216,5 +229,10 @@ const changeFontsize = () => {
 .button-exit {
   color: #000;
   margin-top: 8px;
+}
+
+.appbar {
+  color: white;
+  text-align:center;
 }
 </style>
