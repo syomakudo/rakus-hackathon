@@ -13,6 +13,7 @@ const socket = socketManager.getInstance();
 // #region reactive variable
 const chatContent = ref("");
 const chatList = reactive([]);
+let messageId = 0; // メッセージIDを追跡するための変数
 // #endregion
 
 // #region lifecycle
@@ -41,7 +42,14 @@ const onPublish = () => {
     dateobj.getSeconds();
   console.log(publishedTime);
 
-  socket.emit("publishEvent", `${userName.value}さん：${chatContent.value}`);
+  const message = {
+    id: messageId++,
+    userName: userName.value,
+    text: `${userName.value}さん：${chatContent.value}`,
+    timestamp: publishedTime,
+  };
+  socket.emit("publishEvent", message);
+
   // 入力欄を初期化
   chatContent.value = "";
   console.log(chatList);
@@ -54,8 +62,13 @@ const onExit = () => {
 
 // メモを画面上に表示する
 const onMemo = () => {
+  const memoMessage = {
+    id: messageId++, // メッセージIDを追跡するための変数をインクリメント
+    userName: userName.value, // ここでユーザー名を追加
+    text: `${userName.value}さんのメモ：${chatContent.value}`, // メモの内容
+  };
   // メモの内容を表示
-  chatList.unshift(`${userName.value}さんのメモ：${chatContent.value}`);
+  chatList.unshift(memoMessage); // chatListの先頭に追加
   // 入力欄を初期化
   chatContent.value = "";
 };
@@ -78,6 +91,27 @@ const onReceiveExit = (data) => {
 const onReceivePublish = (data) => {
   //chatList.push();
   chatList.unshift(data);
+};
+
+// メッセージ取り消し機能
+const onCancelMessage = (messageId) => {
+  // メッセージの投稿者が現在のユーザーかどうかを確認
+  const message = chatList.find((message) => message.id === messageId);
+  if (message && message.userName === userName.value) {
+    socket.emit("cancelMessageEvent", messageId);
+  } else {
+    console.log("You can only delete your own messages.");
+  }
+};
+
+// サーバから受信したメッセージ取り消しイベントを処理
+const onReceiveCancelMessage = (messageId) => {
+  const messageIndex = chatList.findIndex(
+    (message) => message.id === messageId
+  );
+  if (messageIndex !== -1) {
+    chatList.splice(messageIndex, 1);
+  }
 };
 // #endregion
 
@@ -102,6 +136,11 @@ const registerSocketEvent = () => {
     // chatList.unshift(data);
     onReceivePublish(data);
   });
+
+  // メッセージ取り消しイベントを受け取ったら実行
+  socket.on("cancelMessageEvent", (messageId) => {
+    onReceiveCancelMessage(messageId);
+  });
 };
 // #endregion
 
@@ -112,9 +151,9 @@ const reverseChat = () => {
 
 //.文字サイズ変更
 const changeFontsize = () => {
-  const classNameUl = document.querySelector('ul');
+  const classNameUl = document.querySelector("ul");
   classNameUl.classList.toggle("itemLarge");
-}
+};
 </script>
 
 <template>
@@ -135,14 +174,20 @@ const changeFontsize = () => {
       </div>
       <div class="mt-5" v-if="chatList.length !== 0">
         <ul>
-          <li class="item mt-4" v-for="(chat, i) in chatList" :key="i">
-            {{ chat }}
+          <li class="item mt-4" v-for="(chat, i) in chatList" :key="chat.id">
+            {{ chat.text }}
+            <button
+              v-if="chat.userName === userName"
+              @click="onCancelMessage(chat.id)"
+            >
+              取り消し
+            </button>
           </li>
         </ul>
       </div>
       <button class="button-normal" @click="reverseChat">順番を変える</button>
       <button class="button-normal" @click="changeFontsize">文字サイズ</button>
-      </div>
+    </div>
     <router-link to="/" class="link">
       <button type="button" class="button-normal button-exit" @click="onExit">
         退室する
