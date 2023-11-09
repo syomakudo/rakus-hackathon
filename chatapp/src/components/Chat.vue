@@ -31,7 +31,7 @@ const onPublish = () => {
   const publishedTime =
     dateobj.getFullYear() +
     "/" +
-    dateobj.getMonth() +
+    (dateobj.getMonth() + 1) +
     "/" +
     dateobj.getDate() +
     " " +
