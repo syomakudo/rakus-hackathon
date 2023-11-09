@@ -26,7 +26,7 @@ onMounted(() => {
 // #region browser event handler
 // 投稿メッセージをサーバに送信する
 const onPublish = () => {
-  if (chatContent !== "") {
+  if (chatContent.value.replace(/\s+/g, '') !== "") {
   //3.投稿時刻を取得(YY/MM/DD hour:minute:second)
     const dateobj = new Date();
     const publishedTime =
@@ -51,8 +51,8 @@ const onPublish = () => {
     };
     socket.emit("publishEvent", message);
   }
-
-  if (chatContent.value == "") {
+  
+  if (chatContent.value.replace(/\s+/g, '') == "") {
     alert("投稿文を入力してください");
   }
   // 入力欄を初期化
@@ -67,11 +67,7 @@ const onExit = () => {
 
 // メモを画面上に表示する
 const onMemo = () => {
-  if (chatContent.value == ""); {
-    alert("メモ文を入力してください");
-  }
-
-  if (chatContent.value !== "") {
+  if (chatContent.value.replace(/\s+/g, '') !== "") {
     const memoMessage = {
       id: messageId++, // メッセージIDを追跡するための変数をインクリメント
       userName: userName.value, // ここでユーザー名を追加
@@ -81,11 +77,11 @@ const onMemo = () => {
     chatList.unshift(memoMessage); // chatListの先頭に追加
   }
 
-  if (chatContent.value == ""); {
+  if (chatContent.value.replace(/\s+/g, '') == ""); {
     alert("メモ文を入力してください");
   }
 
-  if (chatContent.value !== "") {
+  if (chatContent.value.replace(/\s+/g, '') !== "") {
     chatList.unshift(`${userName.value}さんのメモ：${chatContent.value}`)
   }
 
