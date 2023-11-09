@@ -58,7 +58,9 @@ const onEnter = () => {
 <style scoped>
 .user-name-text {
   width: 200px;
-  border: 1px solid #888;
+  padding: 5px;
+  border: 1px solid ;
+  border-radius: 5px;
   margin-bottom: 16px;
 }
 </style>
