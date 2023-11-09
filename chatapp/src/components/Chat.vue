@@ -26,30 +26,35 @@ onMounted(() => {
 // #region browser event handler
 // 投稿メッセージをサーバに送信する
 const onPublish = () => {
+  if (chatContent !== "") {
   //3.投稿時刻を取得(YY/MM/DD hour:minute:second)
-  const dateobj = new Date();
-  const publishedTime =
-    dateobj.getFullYear() +
-    "/" +
-    (dateobj.getMonth() + 1) +
-    "/" +
-    dateobj.getDate() +
-    " " +
-    dateobj.getHours() +
-    ":" +
-    dateobj.getMinutes() +
-    ":" +
-    dateobj.getSeconds();
-  console.log(publishedTime);
+    const dateobj = new Date();
+    const publishedTime =
+      dateobj.getFullYear() +
+      "/" +
+      (dateobj.getMonth() + 1) +
+      "/" +
+      dateobj.getDate() +
+      " " +
+      dateobj.getHours() +
+      ":" +
+      dateobj.getMinutes() +
+      ":" +
+      dateobj.getSeconds();
+    console.log(publishedTime);
 
-  const message = {
-    id: messageId++,
-    userName: userName.value,
-    text: `${userName.value}さん：${chatContent.value}`,
-    timestamp: publishedTime,
-  };
-  socket.emit("publishEvent", message);
+    const message = {
+      id: messageId++,
+      userName: userName.value,
+      text: `${userName.value}さん：${chatContent.value}`,
+      timestamp: publishedTime,
+    };
+    socket.emit("publishEvent", message);
+  }
 
+  if (chatContent.value == "") {
+    alert("投稿文を入力してください");
+  }
   // 入力欄を初期化
   chatContent.value = "";
   console.log(chatList);
@@ -62,13 +67,28 @@ const onExit = () => {
 
 // メモを画面上に表示する
 const onMemo = () => {
-  const memoMessage = {
-    id: messageId++, // メッセージIDを追跡するための変数をインクリメント
-    userName: userName.value, // ここでユーザー名を追加
-    text: `${userName.value}さんのメモ：${chatContent.value}`, // メモの内容
-  };
-  // メモの内容を表示
-  chatList.unshift(memoMessage); // chatListの先頭に追加
+  if (chatContent.value == ""); {
+    alert("メモ文を入力してください");
+  }
+
+  if (chatContent.value !== "") {
+    const memoMessage = {
+      id: messageId++, // メッセージIDを追跡するための変数をインクリメント
+      userName: userName.value, // ここでユーザー名を追加
+      text: `${userName.value}さんのメモ：${chatContent.value}`, // メモの内容
+    };
+    // メモの内容を表示
+    chatList.unshift(memoMessage); // chatListの先頭に追加
+  }
+
+  if (chatContent.value == ""); {
+    alert("メモ文を入力してください");
+  }
+
+  if (chatContent.value !== "") {
+    chatList.unshift(`${userName.value}さんのメモ：${chatContent.value}`)
+  }
+
   // 入力欄を初期化
   chatContent.value = "";
 };
