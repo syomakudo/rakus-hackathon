@@ -26,29 +26,35 @@ onMounted(() => {
 // #region browser event handler
 // 投稿メッセージをサーバに送信する
 const onPublish = () => {
-  //3.投稿時刻を取得(YY/MM/DD hour:minute:second)
-  const dateobj = new Date();
-  const publishedTime =
-    dateobj.getFullYear() +
-    "/" +
-    (dateobj.getMonth() + 1) +
-    "/" +
-    dateobj.getDate() +
-    " " +
-    dateobj.getHours() +
-    ":" +
-    dateobj.getMinutes() +
-    ":" +
-    dateobj.getSeconds();
+  if (chatContent !== "") {
+    //3.投稿時刻を取得(YY/MM/DD hour:minute:second)
+    const dateobj = new Date();
+    const publishedTime =
+      dateobj.getFullYear() +
+      "/" +
+      (dateobj.getMonth() + 1) +
+      "/" +
+      dateobj.getDate() +
+      " " +
+      dateobj.getHours() +
+      ":" +
+      dateobj.getMinutes() +
+      ":" +
+      dateobj.getSeconds();
+    console.log(publishedTime);
 
-  const message = {
-    id: messageId++,
-    userName: userName.value,
-    text: chatContent.value,
-    timestamp: publishedTime,
-  };
-  socket.emit("publishEvent", message);
+    const message = {
+      id: messageId++,
+      userName: userName.value,
+      text: `${userName.value}さん：${chatContent.value}`,
+      timestamp: publishedTime,
+    };
+    socket.emit("publishEvent", message);
+  }
 
+  if (chatContent.value == "") {
+    alert("投稿文を入力してください");
+  }
   // 入力欄を初期化
   chatContent.value = "";
 };
@@ -60,13 +66,30 @@ const onExit = () => {
 
 // メモを画面上に表示する
 const onMemo = () => {
-  const memoMessage = {
-    id: messageId++, // メッセージIDを追跡するための変数をインクリメント
-    userName: userName.value, // ここでユーザー名を追加
-    text: `${userName.value}さんのメモ：${chatContent.value}`, // メモの内容
-  };
-  // メモの内容を表示
-  chatList.unshift(memoMessage); // chatListの先頭に追加
+  if (chatContent.value == "");
+  {
+    alert("メモ文を入力してください");
+  }
+
+  if (chatContent.value !== "") {
+    const memoMessage = {
+      id: messageId++, // メッセージIDを追跡するための変数をインクリメント
+      userName: userName.value, // ここでユーザー名を追加
+      text: `${userName.value}さんのメモ：${chatContent.value}`, // メモの内容
+    };
+    // メモの内容を表示
+    chatList.unshift(memoMessage); // chatListの先頭に追加
+  }
+
+  if (chatContent.value == "");
+  {
+    alert("メモ文を入力してください");
+  }
+
+  if (chatContent.value !== "") {
+    chatList.unshift(`${userName.value}さんのメモ：${chatContent.value}`);
+  }
+
   // 入力欄を初期化
   chatContent.value = "";
 };
@@ -151,7 +174,6 @@ const changeFontsize = () => {
 <template>
   <v-app>
     <v-app-bar color="#FF8200" flat>
-      
       <template v-slot:prepend>
         <router-link to="/" class="link">
           <v-btn @click="onExit">
@@ -160,9 +182,7 @@ const changeFontsize = () => {
         </router-link>
       </template>
 
-      <v-app-bar-title class="appbar">
-        Chatルーム
-      </v-app-bar-title>
+      <v-app-bar-title class="appbar"> Chatルーム </v-app-bar-title>
 
       <template v-slot:append>
         <v-btn>
@@ -176,14 +196,14 @@ const changeFontsize = () => {
         <div class="mt-5" v-if="chatList.length !== 0">
           <ul>
             <li class="item mt-4" v-for="(chat, i) in chatList" :key="chat.id">
-              <div v-if="chat.userName==userName" class="mycards">
+              <div v-if="chat.userName == userName" class="mycards">
                 <v-card color="#F8CC9E" variant="flat">
                   <v-card-text>{{ chat.text }}</v-card-text>
                 </v-card>
                 <div class="timestamp" id="mytimestamp">
                   {{ chat.timestamp }}
                 </div>
-              </div>    
+              </div>
               <div v-else class="othercards">
                 {{ chat.userName }}
                 <v-card color="#EAEAE6" variant="flat">
@@ -195,41 +215,56 @@ const changeFontsize = () => {
               </div>
             </li>
           </ul>
+        </div>
+        <button class="button-normal" @click="changeFontsize">
+          文字サイズ
+        </button>
       </div>
-      <button class="button-normal" @click="changeFontsize">文字サイズ</button>
     </div>
-  </div>
 
-  <v-container fluid class="message">
-    <v-row>
-      <v-col cols="8">
-        <v-text-field
-          v-model="chatContent"
-          clearable
-          placeholder="メッセージを入力"
-          persistant-clear
-          variant="solo"
-          flat
-        >
-        </v-text-field>
-      </v-col>
-      <v-col cols="2" class="buttonLayout">
-        <v-btn block class="buttons" size="70%" color="#FFD600" flat @click="onMemo">
-          メモ
-        </v-btn>
-      </v-col>
-      <v-col cols="2" class="buttonLayout">
-        <v-btn block class="buttons" size="70%" color="#FFD600" flat @click="onPublish">
-          送信
-        </v-btn>
-      </v-col>
-    </v-row>
-  </v-container>
+    <v-container fluid class="message">
+      <v-row>
+        <v-col cols="8">
+          <v-text-field
+            v-model="chatContent"
+            clearable
+            placeholder="メッセージを入力"
+            persistant-clear
+            variant="solo"
+            flat
+          >
+          </v-text-field>
+        </v-col>
+        <v-col cols="2" class="buttonLayout">
+          <v-btn
+            block
+            class="buttons"
+            size="70%"
+            color="#FFD600"
+            flat
+            @click="onMemo"
+          >
+            メモ
+          </v-btn>
+        </v-col>
+        <v-col cols="2" class="buttonLayout">
+          <v-btn
+            block
+            class="buttons"
+            size="70%"
+            color="#FFD600"
+            flat
+            @click="onPublish"
+          >
+            送信
+          </v-btn>
+        </v-col>
+      </v-row>
+    </v-container>
   </v-app>
 </template>
 
 <style scoped>
-
 .link {
   text-decoration: none;
 }
@@ -243,14 +278,14 @@ const changeFontsize = () => {
 }
 
 .appbar {
-  color: #FFFFFF;
-  text-align:center;
+  color: #ffffff;
+  text-align: center;
   font-size: 22px;
   font-weight: bold;
 }
 
 .message {
-  background-color: #FF8200;
+  background-color: #ff8200;
   position: fixed;
   bottom: 0em;
   left: 0em;
@@ -267,13 +302,13 @@ const changeFontsize = () => {
 }
 
 .timestamp {
-  color: #9E9E9E;
+  color: #9e9e9e;
 }
 
 .background {
   margin-top: 5em;
   margin-bottom: 8em;
-  background-color: #FFFFF5 !important;
+  background-color: #fffff5 !important;
   width: 100%;
   height: 100%;
 }
