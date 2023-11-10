@@ -236,27 +236,12 @@ const changeFontsize = () => {
   text-decoration: none;
 }
 
-.area {
-  width: 500px;
-  border: 1px solid #000;
-  margin-top: 8px;
-}
-
 .item {
   display: block;
 }
 
-.itemLarge {
-  font-size: 25px;
-}
-
 .util-ml-8px {
   margin-left: 8px;
-}
-
-.button-exit {
-  color: #000;
-  margin-top: 8px;
 }
 
 .appbar {
