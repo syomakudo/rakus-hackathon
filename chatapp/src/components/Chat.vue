@@ -173,52 +173,60 @@ const changeFontsize = () => {
       </template>
     </v-app-bar>
 
-  <div class="mx-auto my-5 px-4">
-    <div class="mt-10">
-      <p>ログインユーザ：{{ userName }}さん</p>
-      <textarea
-        v-model="chatContent"
-        variant="solo"
-        placeholder="投稿文を入力してください"
-        rows="4"
-        class="area"
-        color="white"
-      ></textarea>
+    <div class="background">
       <div class="mt-5">
-        <button class="button-normal" @click="onPublish">投稿</button>
-        <button class="button-normal util-ml-8px" @click="onMemo">メモ</button>
-      </div>
-      <div class="mt-5" v-if="chatList.length !== 0">
-        <ul>
-          <li class="item mt-4" v-for="(chat, i) in chatList" :key="chat.id">
-          <v-card
-            width="400"
-            >
-            <v-card-text>{{ chat.userName }}</v-card-text>
-          </v-card>
-            <button
-              v-if="chat.userName === userName"
-              @click="onCancelMessage(chat.id)"
-            >
-              取り消し
-            </button>
-          </li>
-        </ul>
+        <div class="mt-5" v-if="chatList.length !== 0">
+          <ul>
+            <li class="item mt-4" v-for="(chat, i) in chatList" :key="chat.id">
+              <div v-if="chat.userName==userName" class="mycards">
+                <v-card color="#F8CC9E" variant="flat">
+                  <v-card-text>{{ chat.text }}</v-card-text>
+                </v-card>
+                <div class="timestamp" id="mytimestamp">
+                  {{ chat.timestamp }}
+                </div>
+              </div>    
+              <div v-else class="othercards">
+                {{ chat.userName }}
+                <v-card color="#EAEAE6" variant="flat">
+                  <v-card-text>{{ chat.text }}</v-card-text>
+                </v-card>
+                <div class="timestamp">
+                  {{ chat.timestamp }}
+                </div>
+              </div>
+            </li>
+          </ul>
       </div>
       <button class="button-normal" @click="reverseChat">順番を変える</button>
       <button class="button-normal" @click="changeFontsize">文字サイズ</button>
     </div>
   </div>
-  <v-container class="message">
-  <div class="messagebox"><v-text-field
-    clearable
-    placeholder="メッセージを入力"
-    persistent-clear
-    variant="solo"
-    @click:clear="onClear"
-    
-  ></v-text-field></div>
- <div class="messagebutton"><v-btn color="yellow">送信</v-btn></div>
+
+  <v-container fluid class="message">
+    <v-row>
+      <v-col cols="8">
+        <v-text-field
+          v-model="chatContent"
+          clearable
+          placeholder="メッセージを入力"
+          persistant-clear
+          variant="solo"
+          flat
+        >
+        </v-text-field>
+      </v-col>
+      <v-col cols="2" class="buttonLayout">
+        <v-btn block class="buttons" size="70%" color="#FFD600" flat @click="onMemo">
+          メモ
+        </v-btn>
+      </v-col>
+      <v-col cols="2" class="buttonLayout">
+        <v-btn block class="buttons" size="70%" color="#FFD600" flat @click="onPublish">
+          送信
+        </v-btn>
+      </v-col>
+    </v-row>
   </v-container>
   </v-app>
 </template>
@@ -252,13 +260,17 @@ const changeFontsize = () => {
 }
 
 .appbar {
-  color: white;
+  color: #FFFFFF;
   text-align:center;
+  font-size: 22px;
+  font-weight: bold;
 }
 
 .message {
-  display: flex;
-  background-color: orange;
+  background-color: #FF8200;
+  position: fixed;
+  bottom: 0em;
+  left: 0em;
 }
 
 .messagebox {
