@@ -273,11 +273,38 @@ const changeFontsize = () => {
   left: 0em;
 }
 
-.messagebox {
+.mycards {
   width: 70%;
+  margin: 0 1em 0 auto;
 }
 
-.messagebutton {
-  width: 30%;
+.othercards {
+  width: 70%;
+  margin: 0 0 0 1em;
+}
+
+.timestamp {
+  color: #9E9E9E;
+}
+
+.background {
+  background-color: #FFFFF5;
+  width: 100%;
+  height: 100%;
+}
+
+.buttons {
+  color: #363636;
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.buttonLayout {
+  padding-left: 0em;
+}
+
+#mytimestamp {
+  text-align: right;
 }
 </style>
