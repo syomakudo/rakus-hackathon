@@ -45,7 +45,7 @@ const onPublish = () => {
   const message = {
     id: messageId++,
     userName: userName.value,
-    text: `${userName.value}さん：${chatContent.value}`,
+    text: chatContent.value,
     timestamp: publishedTime,
   };
   socket.emit("publishEvent", message);
@@ -151,17 +151,38 @@ const changeFontsize = () => {
 </script>
 
 <template>
-  <v-app><v-app-bar color="orange"><v-app-bar-title class="appbar">Chatルーム</v-app-bar-title></v-app-bar>
+  <v-app>
+    <v-app-bar color="#FF8200" flat>
+      
+      <template v-slot:prepend>
+        <router-link to="/" class="link">
+          <v-btn @click="onExit">
+            <v-icon size="32" color="white">mdi-chevron-left</v-icon>
+          </v-btn>
+        </router-link>
+      </template>
+
+      <v-app-bar-title class="appbar">
+        Chatルーム
+      </v-app-bar-title>
+
+      <template v-slot:append>
+        <v-btn>
+          <v-icon size="32">mdi-cog-outline</v-icon>
+        </v-btn>
+      </template>
+    </v-app-bar>
+
   <div class="mx-auto my-5 px-4">
-    <h1 class="text-h3 font-weight-medium">Vue.js Chat チャットルーム</h1>
     <div class="mt-10">
       <p>ログインユーザ：{{ userName }}さん</p>
       <textarea
         v-model="chatContent"
-        variant="outlined"
+        variant="solo"
         placeholder="投稿文を入力してください"
         rows="4"
         class="area"
+        color="white"
       ></textarea>
       <div class="mt-5">
         <button class="button-normal" @click="onPublish">投稿</button>
@@ -173,7 +194,7 @@ const changeFontsize = () => {
           <v-card
             width="400"
             >
-            <v-card-text>{{ chat.text }}</v-card-text>
+            <v-card-text>{{ chat.userName }}</v-card-text>
           </v-card>
             <button
               v-if="chat.userName === userName"
@@ -187,19 +208,18 @@ const changeFontsize = () => {
       <button class="button-normal" @click="reverseChat">順番を変える</button>
       <button class="button-normal" @click="changeFontsize">文字サイズ</button>
     </div>
-    <router-link to="/" class="link">
-      <button type="button" class="button-normal button-exit" @click="onExit">
-        退室する
-      </button>
-    </router-link>
   </div>
-  <v-text-field
+  <v-container class="message">
+  <div class="messagebox"><v-text-field
     clearable
-    label="Last name"
-    placeholder="chat"
+    placeholder="メッセージを入力"
     persistent-clear
+    variant="solo"
     @click:clear="onClear"
-  ></v-text-field>
+    
+  ></v-text-field></div>
+ <div class="messagebutton"><v-btn color="yellow">送信</v-btn></div>
+  </v-container>
   </v-app>
 </template>
 
@@ -234,5 +254,18 @@ const changeFontsize = () => {
 .appbar {
   color: white;
   text-align:center;
+}
+
+.message {
+  display: flex;
+  background-color: orange;
+}
+
+.messagebox {
+  width: 70%;
+}
+
+.messagebutton {
+  width: 30%;
 }
 </style>
