@@ -198,7 +198,6 @@ const changeFontsize = () => {
             </li>
           </ul>
       </div>
-      <button class="button-normal" @click="reverseChat">順番を変える</button>
       <button class="button-normal" @click="changeFontsize">文字サイズ</button>
     </div>
   </div>
@@ -232,6 +231,8 @@ const changeFontsize = () => {
 </template>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
 .link {
   text-decoration: none;
 }
@@ -273,7 +274,7 @@ const changeFontsize = () => {
 }
 
 .background {
-  background-color: #FFFFF5;
+  background-color: #FFFFF5 !important;
   width: 100%;
   height: 100%;
 }
