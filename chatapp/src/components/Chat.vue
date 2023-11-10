@@ -40,7 +40,6 @@ const onPublish = () => {
     dateobj.getMinutes() +
     ":" +
     dateobj.getSeconds();
-  console.log(publishedTime);
 
   const message = {
     id: messageId++,
@@ -52,7 +51,6 @@ const onPublish = () => {
 
   // 入力欄を初期化
   chatContent.value = "";
-  console.log(chatList);
 };
 
 // 退室メッセージをサーバに送信する
@@ -174,7 +172,7 @@ const changeFontsize = () => {
     </v-app-bar>
 
     <div class="background">
-      <div class="mt-5">
+      <div>
         <div class="mt-5" v-if="chatList.length !== 0">
           <ul>
             <li class="item mt-4" v-for="(chat, i) in chatList" :key="chat.id">
@@ -231,7 +229,6 @@ const changeFontsize = () => {
 </template>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
 
 .link {
   text-decoration: none;
@@ -274,6 +271,7 @@ const changeFontsize = () => {
 }
 
 .background {
+  margin-top: 5em;
   background-color: #FFFFF5 !important;
   width: 100%;
   height: 100%;
