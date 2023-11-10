@@ -168,8 +168,12 @@ const reverseChat = () => {
 
 //.文字サイズ変更
 const changeFontsize = () => {
-  const classNameUl = document.querySelector("ul");
-  classNameUl.classList.toggle("itemLarge");
+  const classNameUl = document.querySelector("ul"); //タイムスタンプ
+  const classNameText = document.querySelectorAll(".v-card-text"); //投稿内容
+  classNameUl.classList.toggle("itemLarge"); //itemLargeクラスを付与
+  classNameText.forEach((item) => {
+    item.classList.toggle("itemLarge");
+  });
 };
 </script>
 
@@ -273,6 +277,10 @@ const changeFontsize = () => {
 
 .item {
   display: block;
+}
+
+.itemLarge {
+  font-size: 20px;
 }
 
 .util-ml-8px {
