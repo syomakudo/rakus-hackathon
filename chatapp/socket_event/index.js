@@ -4,14 +4,14 @@ export default (io, socket) => {
   // 入室メッセージをクライアントに送信する
   socket.on("enterEvent", (data) => {
     const messageId = uuidv4();
-    const dataWithId = { text: data, id: messageId };
+    const dataWithId = { ...data, id: messageId };
     socket.broadcast.emit("enterEvent", dataWithId);
   });
 
   // 退室メッセージをクライアントに送信する
   socket.on("exitEvent", (data) => {
     const messageId = uuidv4();
-    const dataWithId = { text: data, id: messageId };
+    const dataWithId = { ...data, id: messageId };
     socket.broadcast.emit("exitEvent", dataWithId);
   });
 

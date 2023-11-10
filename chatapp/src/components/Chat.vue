@@ -23,34 +23,36 @@ onMounted(() => {
 });
 // #endregion
 
+// #region function
+//3.投稿時刻を取得(YY/MM/DD hour:minute:second)
+function getCurrentTimestamp() {
+  const dateobj = new Date();
+  return (
+    dateobj.getFullYear() +
+    "/" +
+    (dateobj.getMonth() + 1).toString().padStart(2, "0") +
+    "/" +
+    dateobj.getDate().toString().padStart(2, "0") +
+    " " +
+    dateobj.getHours().toString().padStart(2, "0") +
+    ":" +
+    dateobj.getMinutes().toString().padStart(2, "0") +
+    ":" +
+    dateobj.getSeconds().toString().padStart(2, "0")
+  );
+}
+// #endregion
+
 // #region browser event handler
 // 投稿メッセージをサーバに送信する
 const onPublish = () => {
-  if (chatContent.value.replace(/\s+/g, "") !== "") {
-    //3.投稿時刻を取得(YY/MM/DD hour:minute:second)
-    const dateobj = new Date();
-    const publishedTime =
-      dateobj.getFullYear() +
-      "/" +
-      (dateobj.getMonth() + 1) +
-      "/" +
-      dateobj.getDate() +
-      " " +
-      dateobj.getHours() +
-      ":" +
-      dateobj.getMinutes() +
-      ":" +
-      dateobj.getSeconds();
-    console.log(publishedTime);
-
-    const message = {
-      id: messageId++,
-      userName: userName.value,
-      text: `${userName.value}さん：${chatContent.value}`,
-      timestamp: publishedTime,
-    };
-    socket.emit("publishEvent", message);
-  }
+  const message = {
+    id: messageId++,
+    userName: userName.value,
+    text: chatContent.value,
+    timestamp: getCurrentTimestamp(),
+  };
+  socket.emit("publishEvent", message);
 
   if (chatContent.value.replace(/\s+/g, "") == "") {
     alert("投稿文を入力してください");
@@ -61,7 +63,12 @@ const onPublish = () => {
 
 // 退室メッセージをサーバに送信する
 const onExit = () => {
-  socket.emit("exitEvent", `${userName.value}さんが退出しました。`);
+  const exitMessage = {
+    userName: userName.value,
+    text: `${userName.value}さんが退出しました。`,
+    timestamp: getCurrentTimestamp(),
+  };
+  socket.emit("exitEvent", exitMessage);
 };
 
 // メモを画面上に表示する

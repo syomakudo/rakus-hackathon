@@ -12,10 +12,6 @@ const router = useRouter();
 const socket = socketManager.getInstance();
 // #endregion
 
-const message = reactive({
-  entryMessage: "",
-});
-
 // #region reactive variable
 const inputUserName = ref("");
 // #endregion
@@ -31,8 +27,27 @@ const onEnter = () => {
   }
 
   // 入室メッセージを送信
-  message.entryMessage = inputUserName.value + "さんが入室しました。";
-  socket.emit("enterEvent", message.entryMessage);
+  const dateobj = new Date();
+  const enterTime =
+    dateobj.getFullYear() +
+    "/" +
+    (dateobj.getMonth() + 1) +
+    "/" +
+    dateobj.getDate() +
+    " " +
+    dateobj.getHours() +
+    ":" +
+    dateobj.getMinutes() +
+    ":" +
+    dateobj.getSeconds();
+
+  const enterMessage = {
+    userName: inputUserName.value,
+    text: `${inputUserName.value}さんが入室しました。`,
+    timestamp: enterTime,
+  };
+
+  socket.emit("enterEvent", enterMessage);
 
   // 全体で使用するnameに入力されたユーザー名を格納
   userName.value = inputUserName.value;
