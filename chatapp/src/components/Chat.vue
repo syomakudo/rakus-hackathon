@@ -1,9 +1,13 @@
 <script setup>
-import { inject, ref, reactive, onMounted } from "vue";
+import { inject, ref, reactive, onMounted, watch } from "vue";
 import socketManager from "../socketManager.js";
 
 // #region global state
 const userName = inject("userName");
+const isPublishedTime = inject("isPublishedTime");
+const isReverseChat = inject("isReverseChat");
+const isChangeFontsize = inject("isChangeFontsize");
+const isCancelMessage = inject("isCancelMessage");
 // #endregion
 
 // #region local variable
@@ -14,6 +18,20 @@ const socket = socketManager.getInstance();
 const chatContent = ref("");
 const chatList = reactive([]);
 let messageId = 0; // メッセージIDを追跡するための変数
+// #endregion
+
+// #region watch
+watch(isReverseChat, (newValue) => {
+  if (newValue) {
+    reverseChat();
+  }
+});
+
+watch(isChangeFontsize, (newValue) => {
+  if (newValue) {
+    changeFontsize();
+  }
+});
 // #endregion
 
 // #region lifecycle
@@ -130,6 +148,10 @@ const onReceiveCancelMessage = (messageId) => {
   if (messageIndex !== -1) {
     chatList.splice(messageIndex, 1);
   }
+};
+
+const onTest = () => {
+  isCancelMessage.value = true;
 };
 // #endregion
 
