@@ -272,6 +272,7 @@ const changeFontsize = () => {
 
 .background {
   margin-top: 5em;
+  margin-bottom: 8em;
   background-color: #FFFFF5 !important;
   width: 100%;
   height: 100%;
