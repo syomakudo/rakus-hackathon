@@ -44,8 +44,8 @@ const onEnter = () => {
 </script>
 
 <template>
-  <v-app>
-  <div class="background mx-auto my-5 px-4">
+  <v-app class="background">
+  <div class="mx-auto my-5 px-4">
     <svg xmlns="http://www.w3.org/2000/svg" class="figure" viewBox="0 0 459 575" fill="none">
     <path d="M443.1 282.986C488.1 428.5 443.1 574.5 229.1 574.5C-0.399704 574.5 -22.8997 441.5 14.6003 282.986C-26.8997 118 53.6003 0 229.1 0C418.6 4.76837e-06 480.6 136.5 443.1 282.986Z" fill="#FF8200" fill-opacity="0.09"/>
     </svg>
@@ -66,6 +66,7 @@ const onEnter = () => {
      >
       入室する
     </v-btn>
+    </div>
     <v-dialog
       v-model="dialog"
     >
@@ -79,21 +80,19 @@ const onEnter = () => {
       </div>
     </v-dialog>
   </div>
-  </div>
   </v-app>
 </template>
 
 <style scoped>
 .background {
   background-color: #FFFFF5;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
 }
 .figure {
   width: 459px;
   height: 575px;
   position: relative;
-  margin-left: -80px;
 }
 .posi {
   position: absolute;
@@ -169,6 +168,7 @@ const onEnter = () => {
   font-style: normal;
   font-size: 14px;
   text-align: center;
+  margin: 0 auto;
 }
 /*ダイアログ内のテキストの設定 */
 .dialogtext {
