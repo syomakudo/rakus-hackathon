@@ -45,9 +45,9 @@ const onEnter = () => {
 
 <template>
   <v-app class="background">
-  <div class="mx-auto my-5 px-4">
-    <svg xmlns="http://www.w3.org/2000/svg" class="figure" viewBox="0 0 459 575" fill="none">
-    <path d="M443.1 282.986C488.1 428.5 443.1 574.5 229.1 574.5C-0.399704 574.5 -22.8997 441.5 14.6003 282.986C-26.8997 118 53.6003 0 229.1 0C418.6 4.76837e-06 480.6 136.5 443.1 282.986Z" fill="#FF8200" fill-opacity="0.09"/>
+  <div class="mx-auto">
+    <svg xmlns="http://www.w3.org/2000/svg" class="figure" width="390" height="574" viewBox="0 0 390 574" fill="none">
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M0 503.541V92.2175C35.0791 34.4797 102.218 0 197.146 0C292.551 0 355.645 34.5543 390 87.5423V499.517C354.83 544.804 292.904 574 197.146 574C94.2279 574 32.9298 547.287 0 503.541Z" fill="#FF8200" fill-opacity="0.09"/>
     </svg>
     <div class="posi">
     <h1 class="title">Family Chat</h1>
@@ -88,11 +88,13 @@ const onEnter = () => {
   background-color: #FFFFF5;
   width: 100vw;
   height: 100vh;
+  left: 0px;
 }
 .figure {
-  width: 459px;
-  height: 575px;
+  width: 390px;
+  height: 574px;
   position: relative;
+  margin-top: 43px;
 }
 .posi {
   position: absolute;
