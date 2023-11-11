@@ -60,48 +60,55 @@ const onEnter = () => {
 
 <template>
   <v-app class="background">
-  <div class="mx-auto">
-    <div class="figure"></div>
-    <div class="posi">
-      <div class="title">Family Chat</div>
-      <div class="mt-10">
-        <p class="nametext">お名前</p>
-        <input type="text" class="user-name-text" placeholder="お名前を入力してください" v-model="inputUserName" />
-      </div>
-      <v-btn
-        rounded
-        flat
-        height="48" 
-        width="242" 
-        color="#FF8200" 
-        class="buttonLogin" 
-        @click="onEnter"
-      >
-        入室する
-      </v-btn>
-    </div>
-    <v-dialog
-      v-model="dialog"
-    >
-      <div class="Dialog">
-        <div class="dialogtext">
-            お名前を入力してください。
+    <div class="mx-auto">
+      <div class="figure"></div>
+      <div class="posi">
+        <div class="title">Family Chat</div>
+        <div class="mt-10">
+          <p class="nametext">お名前</p>
+          <input
+            type="text"
+            class="user-name-text"
+            placeholder="お名前を入力してください"
+            v-model="inputUserName"
+          />
         </div>
-          <v-btn rounded flat height="48" width="242" 
-            class="buttonDialog"
-            @click="dialog = false">閉じる</v-btn>
+        <v-btn
+          rounded
+          flat
+          height="48"
+          width="242"
+          color="#FF8200"
+          class="buttonLogin"
+          @click="onEnter"
+        >
+          入室する
+        </v-btn>
       </div>
-    </v-dialog>
-  </div>
+      <v-dialog v-model="dialog">
+        <div class="Dialog">
+          <div class="dialogtext">お名前を入力してください。</div>
+          <v-btn
+            rounded
+            flat
+            height="48"
+            width="242"
+            class="buttonDialog"
+            @click="dialog = false"
+            >閉じる</v-btn
+          >
+        </div>
+      </v-dialog>
+    </div>
   </v-app>
 </template>
 
 <style scoped>
 @import url(http://fonts.googleapis.com/earlyaccess/notosansjp.css);
 .background {
-  background-color: #FFFFF5;
-  width: 100%;
-  height: 100%;
+  background-color: #fffff5;
+  width: 100vw;
+  height: 100vh;
 }
 @media (min-width: 600px) {
   .figure {
@@ -136,9 +143,9 @@ const onEnter = () => {
   -ms-transform: translateX(-50%);
 }
 .title {
-  color: #FF8200;
+  color: #ff8200;
   text-align: center;
-  font-family: 'Noto Sans JP';
+  font-family: "Noto Sans JP";
   font-size: 36px;
   font-style: normal;
   font-weight: 700;
@@ -154,7 +161,7 @@ const onEnter = () => {
 
 .nametext {
   color: #000;
-  font-family: 'Noto Sans JP';
+  font-family: "Noto Sans JP";
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
@@ -166,14 +173,14 @@ const onEnter = () => {
 .user-name-text {
   border-radius: 10px;
   border: 1px solid #000;
-  background: #FFFFF5;
+  background: #fffff5;
   width: 242px;
   height: 48px;
   padding: 8px 9px;
   justify-content: center;
   align-items: center;
   flex-shrink: 0;
-  font-family: 'Noto Sans JP';
+  font-family: "Noto Sans JP";
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
@@ -183,9 +190,9 @@ const onEnter = () => {
 }
 
 .buttonLogin {
-  color: #FFF;
+  color: #fff;
   text-align: center;
-  font-family: 'Noto Sans JP';
+  font-family: "Noto Sans JP";
   font-size: 14px;
   font-style: normal;
   font-weight: 700;
@@ -196,9 +203,9 @@ const onEnter = () => {
   height: 240px;
   width: 324px;
   border-radius: 20px;
-  background: #FFF;
+  background: #fff;
   box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.25);
-  font-family: 'Noto Sans JP';
+  font-family: "Noto Sans JP";
   font-style: normal;
   font-size: 14px;
   text-align: center;
@@ -215,8 +222,8 @@ const onEnter = () => {
 }
 /*ダイアログ内のボタンの設定 */
 .buttonDialog {
-  border: 1px solid #FF8200;
-  color: #FF8200;
+  border: 1px solid #ff8200;
+  color: #ff8200;
   padding: 3px 16px 2px 17px;
   justify-content: center;
   align-items: center;
