@@ -60,10 +60,21 @@ const onEnter = () => {
 
 <template>
   <v-app class="background">
-    <div class="mx-auto">
-      <div class="figure"></div>
+    <div class="mx-auto my-5 px-4">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="figure"
+        viewBox="0 0 459 575"
+        fill="none"
+      >
+        <path
+          d="M443.1 282.986C488.1 428.5 443.1 574.5 229.1 574.5C-0.399704 574.5 -22.8997 441.5 14.6003 282.986C-26.8997 118 53.6003 0 229.1 0C418.6 4.76837e-06 480.6 136.5 443.1 282.986Z"
+          fill="#FF8200"
+          fill-opacity="0.09"
+        />
+      </svg>
       <div class="posi">
-        <div class="title">Family Chat</div>
+        <h1 class="title">Family Chat</h1>
         <div class="mt-10">
           <p class="nametext">お名前</p>
           <input
@@ -93,10 +104,12 @@ const onEnter = () => {
             flat
             height="48"
             width="242"
-            class="buttonDialog"
-            @click="dialog = false"
-            >閉じる</v-btn
+            color="#FF8200"
+            class="buttonLogin"
+            @click="onEnter"
           >
+            入室する
+          </v-btn>
         </div>
       </v-dialog>
     </div>
@@ -110,16 +123,10 @@ const onEnter = () => {
   width: 100vw;
   height: 100vh;
 }
-@media (min-width: 600px) {
-  .figure {
-    width: 600px;
-    height: 600px;
-    flex-shrink: 0;
-    border-radius: 600px;
-    background: rgba(255, 130, 0, 0.09);
-    margin-top: 38px;
-    position: relative;
-  }
+.figure {
+  width: 459px;
+  height: 575px;
+  position: relative;
 }
 /*ディスプレイに合わせてcss（背景図形）を変化*/
 @media (max-width: 600px) {
