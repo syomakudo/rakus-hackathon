@@ -50,7 +50,14 @@ const onEnter = () => {
       <p class="nametext">お名前</p>
       <input type="text" class="user-name-text" placeholder="お名前を入力してください" v-model="inputUserName" />
     </div>
-    <v-btn rounded height="48" width="242" color="#FF8200" class="buttonLogin" @click="onEnter">
+    <v-btn
+      rounded 
+      height="48" 
+      width="242" 
+      color="#FF8200" 
+      class="buttonLogin" 
+      @click="onEnter"
+     >
       入室する
     </v-btn>
   </div>
@@ -87,6 +94,18 @@ const onEnter = () => {
   border-radius: 10px;
   border: 1px solid #000;
   background: #FFFFF5;
+  width: 242px;
+  height: 48px;
+  padding: 8px 9px;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 22px; /* 157.143% */
+  letter-spacing: -0.408px;
 }
 
 .buttonLogin {
