@@ -46,6 +46,10 @@ const onEnter = () => {
 <template>
   <v-app>
   <div class="background mx-auto my-5 px-4">
+    <svg xmlns="http://www.w3.org/2000/svg" class="figure" viewBox="0 0 459 575" fill="none">
+    <path d="M443.1 282.986C488.1 428.5 443.1 574.5 229.1 574.5C-0.399704 574.5 -22.8997 441.5 14.6003 282.986C-26.8997 118 53.6003 0 229.1 0C418.6 4.76837e-06 480.6 136.5 443.1 282.986Z" fill="#FF8200" fill-opacity="0.09"/>
+    </svg>
+    <div class="posi">
     <h1 class="title">Family Chat</h1>
     <div class="mt-10">
       <p class="nametext">お名前</p>
@@ -75,6 +79,7 @@ const onEnter = () => {
       </div>
     </v-dialog>
   </div>
+  </div>
   </v-app>
 </template>
 
@@ -83,6 +88,20 @@ const onEnter = () => {
   background-color: #FFFFF5;
   width: 100%;
   height: 100%;
+}
+.figure {
+  width: 459px;
+  height: 575px;
+  position: relative;
+  margin-left: -80px;
+}
+.posi {
+  position: absolute;
+  top: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
 }
 .title {
   color: #FF8200;
@@ -93,6 +112,11 @@ const onEnter = () => {
   font-weight: 700;
   line-height: 22px; /* 61.111% */
   letter-spacing: -0.408px;
+  display: inline-flex;
+  padding: 17px 6px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
 }
 
 .nametext {
@@ -103,6 +127,8 @@ const onEnter = () => {
   font-weight: 400;
   line-height: 22px; /* 157.143% */
   letter-spacing: -0.408px;
+  margin-top: 143px;
+  margin-bottom: 6px;
 }
 .user-name-text {
   border-radius: 10px;
@@ -120,6 +146,7 @@ const onEnter = () => {
   font-weight: 400;
   line-height: 22px; /* 157.143% */
   letter-spacing: -0.408px;
+  margin-bottom: 62px;
 }
 
 .buttonLogin {
