@@ -43,22 +43,26 @@ const onEnter = () => {
 </script>
 
 <template>
-  <div class="mx-auto my-5 px-4">
+  <v-app>
+  <div class="background mx-auto my-5 px-4">
     <h1 class="title">Family Chat</h1>
     <div class="mt-10">
       <p class="nametext">お名前</p>
       <input type="text" class="user-name-text" placeholder="お名前を入力してください" v-model="inputUserName" />
     </div>
-    <button type="button" @click="onEnter" class="button-normal">
+    <v-btn rounded height="48" width="242" color="#FF8200" class="buttonLogin" @click="onEnter">
       入室する
-    </button>
-    <svg xmlns="http://www.w3.org/2000/svg" width="459" height="575" viewBox="0 0 459 575" fill="none">
-    <path d="M443.1 282.986C488.1 428.5 443.1 574.5 229.1 574.5C-0.399704 574.5 -22.8997 441.5 14.6003 282.986C-26.8997 118 53.6003 0 229.1 0C418.6 4.76837e-06 480.6 136.5 443.1 282.986Z" fill="#FF8200" fill-opacity="0.09"/>
-    </svg>
+    </v-btn>
   </div>
+  </v-app>
 </template>
 
 <style scoped>
+.background {
+  background-color: #FFFFF5;
+  width: 100%;
+  height: 100%;
+}
 .title {
   color: #FF8200;
   text-align: center;
@@ -83,5 +87,14 @@ const onEnter = () => {
   border-radius: 10px;
   border: 1px solid #000;
   background: #FFFFF5;
+}
+
+.buttonLogin {
+  color: #FFF;
+  text-align: center;
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
 }
 </style>
