@@ -8,6 +8,7 @@ const userName = inject("userName");
 const isReverseChat = inject("isReverseChat");
 const isChangeFontsize = inject("isChangeFontsize");
 const isAddMemo = inject("isAddMemo");
+const dialog = inject("dialog");
 // #endregion
 
 // #region local variable
@@ -18,7 +19,6 @@ const socket = socketManager.getInstance();
 const chatContent = ref("");
 const chatList = reactive([]);
 let messageId = 0; // メッセージIDを追跡するための変数
-const dialog = ref(false);
 // #endregion
 
 // #region watch

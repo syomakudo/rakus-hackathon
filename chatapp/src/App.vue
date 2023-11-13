@@ -8,6 +8,7 @@ const isReverseChat = ref(false);
 const isChangeFontsize = ref(false);
 const isCancelMessage = ref(false);
 const isAddMemo = ref(false);
+const dialog = ref(false);
 // #endregion
 
 // #region global variable
@@ -17,6 +18,7 @@ provide("isReverseChat", isReverseChat);
 provide("isChangeFontsize", isChangeFontsize);
 provide("isCancelMessage", isCancelMessage);
 provide("isAddMemo", isAddMemo);
+provide("dialog", dialog);
 // #endregion
 </script>
 

@@ -6,7 +6,12 @@ const isReverseChat = inject("isReverseChat");
 const isChangeFontsize = inject("isChangeFontsize");
 const isCancelMessage = inject("isCancelMessage");
 const isAddMemo = inject("isAddMemo");
+const dialog = inject("dialog");
 // #endregion
+
+const onClose = () => {
+  dialog.value = false;
+};
 </script>
 
 <template>
@@ -55,6 +60,21 @@ const isAddMemo = inject("isAddMemo");
         <v-switch v-model="isAddMemo" color="orange" hide-details></v-switch>
       </v-col>
     </v-row>
+    <v-row justify="center">
+      <v-col cols="12" class="text-center">
+        <v-btn
+          rounded
+          flat
+          height="48"
+          width="242"
+          color="#FF8200"
+          class="buttonLogin"
+          @click="onClose"
+        >
+          閉じる
+        </v-btn>
+      </v-col>
+    </v-row>
   </div>
 </template>
 
@@ -67,5 +87,15 @@ const isAddMemo = inject("isAddMemo");
 
 .label {
   font-size: 16px;
+}
+
+.buttonLogin {
+  color: #fff;
+  text-align: center;
+  font-family: "Noto Sans JP";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  margin-top: 100px;
 }
 </style>
