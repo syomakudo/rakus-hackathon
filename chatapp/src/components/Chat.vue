@@ -7,6 +7,7 @@ import Setting from "./Setting.vue";
 const userName = inject("userName");
 const isReverseChat = inject("isReverseChat");
 const isChangeFontsize = inject("isChangeFontsize");
+const isCancelMessage = inject("isCancelMessage");
 const isAddMemo = inject("isAddMemo");
 const dialog = inject("dialog");
 // #endregion
@@ -251,6 +252,7 @@ const reverseChat = () => {
                     >{{ chat.text }}
                   </v-card-text>
                   <v-overlay
+                    v-if="isCancelMessage"
                     activator="parent"
                     location-strategy="connected"
                     scroll-strategy="close"
