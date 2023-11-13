@@ -2,58 +2,70 @@
 import { inject, ref, reactive, onMounted } from "vue";
 
 // #region global state
-const userName = inject("userName");
-const isPublishedTime = inject("isPublishedTime");
 const isReverseChat = inject("isReverseChat");
 const isChangeFontsize = inject("isChangeFontsize");
 const isCancelMessage = inject("isCancelMessage");
+const isAddMemo = inject("isAddMemo");
 // #endregion
-
 </script>
 
 <template>
-  <div class="mx-auto my-5 px-4">
-    <h1 class="text-h3 font-weight-medium">Vue.js Chat チャットルーム</h1>
-    <v-switch
-              v-model="isChangeFontsize"
-              label="orange"
-              color="orange"
-              value="orange"
-              hide-details
-            ></v-switch>
-    <router-link to="/chat" class="link">
-      <button type="button" class="button-normal button-exit">
-        ×
-      </button>
-    </router-link>
+  <div class="background_setting">
+    <v-row>
+      <v-col cols="7" offset="1" class="align-self-center label">
+        <div>チャットの並びを反転</div>
+      </v-col>
+      <v-col cols="3" offset="1" class="align-self-center">
+        <v-switch
+          v-model="isReverseChat"
+          color="orange"
+          hide-details
+        ></v-switch>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="7" offset="1" class="align-self-center label">
+        <div>送信取り消し機能オン</div>
+      </v-col>
+      <v-col cols="3" offset="1" class="align-self-center">
+        <v-switch
+          v-model="isCancelMessage"
+          color="orange"
+          hide-details
+        ></v-switch>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="7" offset="1" class="align-self-center label">
+        <div>文字を大きくする</div>
+      </v-col>
+      <v-col cols="3" offset="1" class="align-self-center">
+        <v-switch
+          v-model="isChangeFontsize"
+          color="orange"
+          hide-details
+        ></v-switch>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="7" offset="1" class="align-self-center label">
+        <div>メモ機能を追加</div>
+      </v-col>
+      <v-col cols="3" offset="1" class="align-self-center">
+        <v-switch v-model="isAddMemo" color="orange" hide-details></v-switch>
+      </v-col>
+    </v-row>
   </div>
 </template>
 
 <style scoped>
-.link {
-  text-decoration: none;
+.background_setting {
+  background-color: #fffff5 !important;
+  width: 100%;
+  height: 100%;
 }
 
-.area {
-  width: 500px;
-  border: 1px solid #000;
-  margin-top: 8px;
-}
-
-.item {
-  display: block;
-}
-
-.itemLarge {
-  font-size: 25px;
-}
-
-.util-ml-8px {
-  margin-left: 8px;
-}
-
-.button-exit {
-  color: #000;
-  margin-top: 8px;
+.label {
+  font-size: 16px;
 }
 </style>
