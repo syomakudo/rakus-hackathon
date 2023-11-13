@@ -50,22 +50,22 @@ const onEnter = () => {
     <path fill-rule="evenodd" clip-rule="evenodd" d="M0 503.541V92.2175C35.0791 34.4797 102.218 0 197.146 0C292.551 0 355.645 34.5543 390 87.5423V499.517C354.83 544.804 292.904 574 197.146 574C94.2279 574 32.9298 547.287 0 503.541Z" fill="#FF8200" fill-opacity="0.09"/>
     </svg>
     <div class="posi">
-    <h1 class="title">Family Chat</h1>
-    <div class="mt-10">
-      <p class="nametext">お名前</p>
-      <input type="text" class="user-name-text" placeholder="お名前を入力してください" v-model="inputUserName" />
-    </div>
-    <v-btn
-      rounded
-      flat
-      height="48" 
-      width="242" 
-      color="#FF8200" 
-      class="buttonLogin" 
-      @click="onEnter"
-     >
-      入室する
-    </v-btn>
+      <h1 class="title">Family Chat</h1>
+      <div class="mt-10">
+        <p class="nametext">お名前</p>
+        <input type="text" class="user-name-text" placeholder="お名前を入力してください" v-model="inputUserName" />
+      </div>
+      <v-btn
+        rounded
+        flat
+        height="48" 
+        width="242" 
+        color="#FF8200" 
+        class="buttonLogin" 
+        @click="onEnter"
+      >
+        入室する
+      </v-btn>
     </div>
     <v-dialog
       v-model="dialog"
@@ -84,11 +84,11 @@ const onEnter = () => {
 </template>
 
 <style scoped>
+@import url(http://fonts.googleapis.com/earlyaccess/notosansjp.css);
 .background {
   background-color: #FFFFF5;
   width: 100vw;
   height: 100vh;
-  left: 0px;
 }
 .figure {
   width: 390px;
@@ -107,7 +107,7 @@ const onEnter = () => {
 .title {
   color: #FF8200;
   text-align: center;
-  font-family: Inter;
+  font-family: 'Noto Sans JP';
   font-size: 36px;
   font-style: normal;
   font-weight: 700;
@@ -122,7 +122,7 @@ const onEnter = () => {
 
 .nametext {
   color: #000;
-  font-family: Inter;
+  font-family: 'Noto Sans JP';
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
@@ -141,7 +141,7 @@ const onEnter = () => {
   justify-content: center;
   align-items: center;
   flex-shrink: 0;
-  font-family: Inter;
+  font-family: 'Noto Sans JP';
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
@@ -153,7 +153,7 @@ const onEnter = () => {
 .buttonLogin {
   color: #FFF;
   text-align: center;
-  font-family: Inter;
+  font-family: 'Noto Sans JP';
   font-size: 14px;
   font-style: normal;
   font-weight: 700;
@@ -166,7 +166,7 @@ const onEnter = () => {
   border-radius: 20px;
   background: #FFF;
   box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.25);
-  font-family: Inter;
+  font-family: 'Noto Sans JP';
   font-style: normal;
   font-size: 14px;
   text-align: center;
