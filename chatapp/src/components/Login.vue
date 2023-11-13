@@ -118,7 +118,7 @@ const onEnter = () => {
   justify-content: center;
   align-items: center;
   gap: 10px;
-  margin-left: 16px;
+  margin-left: 14px;
 }
 
 .nametext {
