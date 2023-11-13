@@ -209,7 +209,7 @@ const changeFontsize = () => {
                   <v-overlay
                     activator="parent"
                     location-strategy="connected"
-                    scroll-strategy="block"
+                    scroll-strategy="close"
                     :scrim="false"
                     ><v-row justify="end"
                       ><v-card
