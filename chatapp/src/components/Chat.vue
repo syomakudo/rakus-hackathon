@@ -46,13 +46,15 @@ function getCurrentTimestamp() {
 // #region browser event handler
 // 投稿メッセージをサーバに送信する
 const onPublish = () => {
-  const message = {
-    id: messageId++,
-    userName: userName.value,
-    text: chatContent.value,
-    timestamp: getCurrentTimestamp(),
-  };
-  socket.emit("publishEvent", message);
+  if (chatContent.value.replace(/\s+/g, "") !== "") {
+    const message = {
+      id: messageId++,
+      userName: userName.value,
+      text: chatContent.value,
+      timestamp: getCurrentTimestamp(),
+    };
+    socket.emit("publishEvent", message);
+  }
 
   if (chatContent.value.replace(/\s+/g, "") == "") {
     alert("投稿文を入力してください");
