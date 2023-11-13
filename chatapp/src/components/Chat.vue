@@ -5,7 +5,6 @@ import Setting from "./Setting.vue";
 
 // #region global state
 const userName = inject("userName");
-const isPublishedTime = inject("isPublishedTime");
 const isReverseChat = inject("isReverseChat");
 const isChangeFontsize = inject("isChangeFontsize");
 const isAddMemo = inject("isAddMemo");
@@ -24,15 +23,7 @@ const dialog = ref(false);
 
 // #region watch
 watch(isReverseChat, (newValue) => {
-  if (newValue) {
-    reverseChat();
-  }
-});
-
-watch(isChangeFontsize, (newValue) => {
-  if (newValue) {
-    changeFontsize();
-  }
+  reverseChat();
 });
 // #endregion
 
@@ -104,7 +95,9 @@ const onMemo = () => {
       memo: true,
     };
     // メモの内容を表示
-    chatList.unshift(memoMessage); // chatListの先頭に追加
+    if (isReverseChat.value) {
+      chatList.push(memoMessage); // chatListの末尾に追加
+    } else chatList.unshift(memoMessage); // chatListの先頭に追加
   }
 
   if (chatContent.value.replace(/\s+/g, "") == "") {
@@ -118,17 +111,29 @@ const onMemo = () => {
 // #region socket event handler
 // サーバから受信した入室メッセージ画面上に表示する
 const onReceiveEnter = (data) => {
-  chatList.unshift(data);
+  if (isReverseChat.value) {
+    chatList.push(data);
+  } else {
+    chatList.unshift(data);
+  }
 };
 
 // サーバから受信した退室メッセージを受け取り画面上に表示する
 const onReceiveExit = (data) => {
-  chatList.unshift(data);
+  if (isReverseChat.value) {
+    chatList.push(data);
+  } else {
+    chatList.unshift(data);
+  }
 };
 
 // サーバから受信した投稿メッセージを画面上に表示する
 const onReceivePublish = (data) => {
-  chatList.unshift(data);
+  if (isReverseChat.value) {
+    chatList.push(data);
+  } else {
+    chatList.unshift(data);
+  }
 };
 
 // メッセージ取り消し機能
@@ -152,9 +157,6 @@ const onReceiveCancelMessage = (messageId) => {
   }
 };
 
-const onTest = () => {
-  isCancelMessage.value = true;
-};
 // #endregion
 
 // #region local methods
@@ -186,16 +188,6 @@ const registerSocketEvent = () => {
 //8.チャット逆順
 const reverseChat = () => {
   chatList.reverse();
-};
-
-//.文字サイズ変更
-const changeFontsize = () => {
-  const classNameUl = document.querySelector("ul"); //タイムスタンプ
-  const classNameText = document.querySelectorAll(".v-card-text"); //投稿内容
-  classNameUl.classList.toggle("itemLarge"); //itemLargeクラスを付与
-  classNameText.forEach((item) => {
-    item.classList.toggle("itemLarge");
-  });
 };
 </script>
 
@@ -244,13 +236,20 @@ const changeFontsize = () => {
       <div class="item mt-12">
         <div v-if="chatList.length !== 0">
           <ul>
-            <li class="item mt-5" v-for="(chat, i) in chatList" :key="chat.id">
+            <li
+              v-for="(chat, i) in chatList"
+              :key="chat.id"
+              :class="{ 'item mt-4': true, itemLarge: isChangeFontsize }"
+            >
               <div v-if="chat.userName == userName" class="mycards">
                 <div v-if="chat.memo" class="timestamp" id="memo">
                   メモ（相手に表示されません）
                 </div>
                 <v-card color="#F8CC9E" variant="flat">
-                  <v-card-text>{{ chat.text }}</v-card-text>
+                  <v-card-text
+                    :class="{ '': true, itemLarge: isChangeFontsize }"
+                    >{{ chat.text }}
+                  </v-card-text>
                   <v-overlay
                     activator="parent"
                     location-strategy="connected"
@@ -278,7 +277,11 @@ const changeFontsize = () => {
               <div v-else class="othercards">
                 {{ chat.userName }}
                 <v-card color="#EAEAE6" variant="flat">
-                  <v-card-text>{{ chat.text }}</v-card-text>
+                  <v-card-text
+                    :class="{ '': true, itemLarge: isChangeFontsize }"
+                  >
+                    {{ chat.text }}
+                  </v-card-text>
                 </v-card>
                 <div class="timestamp">
                   {{ chat.timestamp }}
@@ -287,49 +290,76 @@ const changeFontsize = () => {
             </li>
           </ul>
         </div>
-        <button class="button-normal" @click="changeFontsize">
-          文字サイズ
-        </button>
       </div>
     </div>
 
     <v-container fluid class="message">
       <v-row>
-        <v-col cols="8">
-          <v-text-field
-            v-model="chatContent"
-            clearable
-            placeholder="メッセージを入力"
-            persistant-clear
-            variant="solo"
-            flat
-          >
-          </v-text-field>
-        </v-col>
-        <v-col cols="2" class="buttonLayout">
-          <v-btn
-            block
-            class="buttons"
-            size="70%"
-            color="#FFD600"
-            flat
-            @click="onMemo"
-          >
-            メモ
-          </v-btn>
-        </v-col>
-        <v-col cols="2" class="buttonLayout">
-          <v-btn
-            block
-            class="buttons"
-            size="70%"
-            color="#FFD600"
-            flat
-            @click="onPublish"
-          >
-            送信
-          </v-btn>
-        </v-col>
+        <!-- isAddMemoがtrueの場合、メモ入力フィールドと送信ボタンを表示 -->
+        <template v-if="isAddMemo">
+          <v-col cols="8">
+            <v-text-field
+              v-model="chatContent"
+              clearable
+              placeholder="メッセージを入力"
+              persistant-clear
+              variant="solo"
+              flat
+            >
+            </v-text-field>
+          </v-col>
+          <v-col cols="2" class="buttonLayout">
+            <v-btn
+              block
+              class="buttons"
+              size="70%"
+              color="#FFD600"
+              flat
+              @click="onMemo"
+            >
+              メモ
+            </v-btn>
+          </v-col>
+          <v-col cols="2" class="buttonLayout">
+            <v-btn
+              block
+              class="buttons"
+              size="70%"
+              color="#FFD600"
+              flat
+              @click="onPublish"
+            >
+              送信
+            </v-btn>
+          </v-col>
+        </template>
+
+        <!-- isAddMemoがfalseの場合、メモ入力フィールドを表示せず、送信ボタンのみを表示 -->
+        <template v-else>
+          <v-col cols="9">
+            <v-text-field
+              v-model="chatContent"
+              clearable
+              placeholder="メッセージを入力"
+              persistant-clear
+              variant="solo"
+              flat
+            >
+            </v-text-field>
+          </v-col>
+          <v-col cols="3" class="buttonLayout">
+            <v-btn
+              block
+              class="buttons"
+              size="70%"
+              color="#FFD600"
+              flat
+              @click="onPublish"
+            >
+              送信
+            </v-btn>
+          </v-col>
+        </template>
       </v-row>
     </v-container>
   </v-app>
@@ -345,7 +375,7 @@ const changeFontsize = () => {
 }
 
 .itemLarge {
-  font-size: 20px;
+  font-size: 17px;
 }
 
 .util-ml-8px {
@@ -422,5 +452,13 @@ const changeFontsize = () => {
 
 #memo {
   text-align: right;
+}
+.background_setting {
+  background-color: #fffff5 !important;
+  width: 100%;
+}
+.btn-delete {
+  justify-content: flex-end;
+  align-items: center;
 }
 </style>
