@@ -46,13 +46,15 @@ function getCurrentTimestamp() {
 // #region browser event handler
 // 投稿メッセージをサーバに送信する
 const onPublish = () => {
-  const message = {
-    id: messageId++,
-    userName: userName.value,
-    text: chatContent.value,
-    timestamp: getCurrentTimestamp(),
-  };
-  socket.emit("publishEvent", message);
+  if (chatContent.value.replace(/\s+/g, "") !== "") {
+    const message = {
+      id: messageId++,
+      userName: userName.value,
+      text: chatContent.value,
+      timestamp: getCurrentTimestamp(),
+    };
+    socket.emit("publishEvent", message);
+  }
 
   if (chatContent.value.replace(/\s+/g, "") == "") {
     alert("投稿文を入力してください");
@@ -77,21 +79,17 @@ const onMemo = () => {
     const memoMessage = {
       id: messageId++, // メッセージIDを追跡するための変数をインクリメント
       userName: userName.value, // ここでユーザー名を追加
-      text: `${userName.value}さんのメモ：${chatContent.value}`, // メモの内容
+      text: chatContent.value, // メモの内容
+      timestamp: getCurrentTimestamp(),
+      memo: true,
     };
     // メモの内容を表示
     chatList.unshift(memoMessage); // chatListの先頭に追加
   }
 
-  if (chatContent.value.replace(/\s+/g, "") == "");
-  {
+  if (chatContent.value.replace(/\s+/g, "") == "") {
     alert("メモ文を入力してください");
   }
-
-  if (chatContent.value.replace(/\s+/g, "") !== "") {
-    chatList.unshift(`${userName.value}さんのメモ：${chatContent.value}`);
-  }
-
   // 入力欄を初期化
   chatContent.value = "";
 };
@@ -198,14 +196,36 @@ const changeFontsize = () => {
     </v-app-bar>
 
     <div class="background">
-      <div>
-        <div class="mt-5" v-if="chatList.length !== 0">
+      <div class="item mt-12">
+        <div v-if="chatList.length !== 0">
           <ul>
-            <li class="item mt-4" v-for="(chat, i) in chatList" :key="chat.id">
+            <li class="item mt-5" v-for="(chat, i) in chatList" :key="chat.id">
               <div v-if="chat.userName == userName" class="mycards">
+                <div v-if="chat.memo" class="timestamp" id="memo">
+                  メモ（相手に表示されません）
+                </div>
                 <v-card color="#F8CC9E" variant="flat">
                   <v-card-text>{{ chat.text }}</v-card-text>
+                  <v-overlay
+                    activator="parent"
+                    location-strategy="connected"
+                    scroll-strategy="block"
+                    :scrim="false"
+                    ><v-row justify="end"
+                      ><v-card
+                        flat
+                        class="cancelMessage"
+                        rounded="pill"
+                        @click="onCancelMessage(chat.id)"
+                        ><v-card-text class="cancelMessagePosition"
+                          >送信取り消し
+                          <v-icon>mdi-delete-outline</v-icon></v-card-text
+                        ></v-card
+                      ></v-row
+                    ></v-overlay
+                  >
                 </v-card>
+
                 <div class="timestamp" id="mytimestamp">
                   {{ chat.timestamp }}
                 </div>
@@ -316,7 +336,7 @@ const changeFontsize = () => {
 }
 
 .background {
-  margin-top: 5em;
+  margin-top: 3em;
   margin-bottom: 8em;
   background-color: #fffff5 !important;
   width: 100%;
@@ -330,11 +350,32 @@ const changeFontsize = () => {
   font-weight: bold;
 }
 
+.cancelMessage {
+  color: red;
+  text-align: center;
+  position: relative;
+  max-height: 35px;
+  max-width: 150px;
+  top: 50px;
+  left: -10px;
+  opacity: 40%;
+  margin-top: 1px;
+}
+
+.cancelMessagePosition {
+  position: relative;
+  top: -10px;
+}
+
 .buttonLayout {
   padding-left: 0em;
 }
 
 #mytimestamp {
+  text-align: right;
+}
+
+#memo {
   text-align: right;
 }
 </style>
