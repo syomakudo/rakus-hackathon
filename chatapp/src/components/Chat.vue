@@ -1,13 +1,14 @@
 <script setup>
 import { inject, ref, reactive, onMounted, watch } from "vue";
 import socketManager from "../socketManager.js";
+import Setting from "./Setting.vue";
 
 // #region global state
 const userName = inject("userName");
 const isPublishedTime = inject("isPublishedTime");
 const isReverseChat = inject("isReverseChat");
 const isChangeFontsize = inject("isChangeFontsize");
-const isCancelMessage = inject("isCancelMessage");
+const isAddMemo = inject("isAddMemo");
 // #endregion
 
 // #region local variable
@@ -18,6 +19,7 @@ const socket = socketManager.getInstance();
 const chatContent = ref("");
 const chatList = reactive([]);
 let messageId = 0; // メッセージIDを追跡するための変数
+const dialog = ref(false);
 // #endregion
 
 // #region watch
@@ -211,11 +213,32 @@ const changeFontsize = () => {
       <v-app-bar-title class="appbar"> Chatルーム </v-app-bar-title>
 
       <template v-slot:append>
-        <v-btn>
+        <v-btn @click="dialog = true">
           <v-icon size="32">mdi-cog-outline</v-icon>
         </v-btn>
       </template>
     </v-app-bar>
+
+    <!-- 設定画面 -->
+    <v-dialog
+      v-model="dialog"
+      fullscreen
+      hide-overlay
+      transition="dialog-bottom-transition"
+    >
+      <v-card>
+        <v-toolbar class="background_setting">
+          <template v-slot:append>
+            <v-toolbar-items>
+              <v-btn text @click="dialog = false">
+                <v-icon size="32">mdi-close</v-icon>
+              </v-btn>
+            </v-toolbar-items>
+          </template>
+        </v-toolbar>
+        <Setting />
+      </v-card>
+    </v-dialog>
 
     <div class="background">
       <div class="item mt-12">
