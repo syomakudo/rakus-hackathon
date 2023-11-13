@@ -23,6 +23,26 @@ onMounted(() => {
 });
 // #endregion
 
+// #region function
+//3.投稿時刻を取得(YY/MM/DD hour:minute:second)
+function getCurrentTimestamp() {
+  const dateobj = new Date();
+  return (
+    dateobj.getFullYear() +
+    "/" +
+    (dateobj.getMonth() + 1).toString().padStart(2, "0") +
+    "/" +
+    dateobj.getDate().toString().padStart(2, "0") +
+    " " +
+    dateobj.getHours().toString().padStart(2, "0") +
+    ":" +
+    dateobj.getMinutes().toString().padStart(2, "0") +
+    ":" +
+    dateobj.getSeconds().toString().padStart(2, "0")
+  );
+}
+// #endregion
+
 // #region browser event handler
 // 投稿メッセージをサーバに送信する
 const onPublish = () => {
@@ -61,7 +81,12 @@ const onPublish = () => {
 
 // 退室メッセージをサーバに送信する
 const onExit = () => {
-  socket.emit("exitEvent", `${userName.value}さんが退出しました。`);
+  const exitMessage = {
+    userName: userName.value,
+    text: `${userName.value}さんが退出しました。`,
+    timestamp: getCurrentTimestamp(),
+  };
+  socket.emit("exitEvent", exitMessage);
 };
 
 // メモを画面上に表示する
@@ -162,8 +187,12 @@ const reverseChat = () => {
 
 //.文字サイズ変更
 const changeFontsize = () => {
-  const classNameUl = document.querySelector("ul");
-  classNameUl.classList.toggle("itemLarge");
+  const classNameUl = document.querySelector("ul"); //タイムスタンプ
+  const classNameText = document.querySelectorAll(".v-card-text"); //投稿内容
+  classNameUl.classList.toggle("itemLarge"); //itemLargeクラスを付与
+  classNameText.forEach((item) => {
+    item.classList.toggle("itemLarge");
+  });
 };
 </script>
 
@@ -193,9 +222,6 @@ const changeFontsize = () => {
           <ul>
             <li class="item mt-4" v-for="(chat, i) in chatList" :key="chat.id">
               <div v-if="chat.userName == userName" class="mycards">
-                <div v-if="chat.memo" class="timestamp" id="memo">
-                  メモ（相手に表示されません）
-                </div>
                 <v-card color="#F8CC9E" variant="flat">
                   <v-card-text>{{ chat.text }}</v-card-text>
                 </v-card>
@@ -270,6 +296,10 @@ const changeFontsize = () => {
 
 .item {
   display: block;
+}
+
+.itemLarge {
+  font-size: 20px;
 }
 
 .util-ml-8px {
