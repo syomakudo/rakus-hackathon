@@ -50,7 +50,7 @@ const onEnter = () => {
     <path fill-rule="evenodd" clip-rule="evenodd" d="M0 503.541V92.2175C35.0791 34.4797 102.218 0 197.146 0C292.551 0 355.645 34.5543 390 87.5423V499.517C354.83 544.804 292.904 574 197.146 574C94.2279 574 32.9298 547.287 0 503.541Z" fill="#FF8200" fill-opacity="0.09"/>
     </svg>
     <div class="posi">
-      <h1 class="title">Family Chat</h1>
+      <div class="title">Family Chat</div>
       <div class="mt-10">
         <p class="nametext">お名前</p>
         <input type="text" class="user-name-text" placeholder="お名前を入力してください" v-model="inputUserName" />
@@ -114,10 +114,11 @@ const onEnter = () => {
   line-height: 22px; /* 61.111% */
   letter-spacing: -0.408px;
   display: inline-flex;
-  padding: 17px 6px;
+  padding: 17px 2px;
   justify-content: center;
   align-items: center;
   gap: 10px;
+  margin-left: 16px;
 }
 
 .nametext {
