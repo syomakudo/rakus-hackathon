@@ -88,17 +88,7 @@ const onEnter = () => {
   width: 100vw;
   height: 100vh;
 }
-.figure {
-  width: 600px;
-  height: 600px;
-  flex-shrink: 0;
-  border-radius: 600px;
-  background: rgba(255, 130, 0, 0.09);
-  margin-top: 38px;
-  position: relative;
-}
-/*ディスプレイに合わせてcss（背景図形）を変化*/
-@media (max-width:600px) {
+@media (min-width: 600px) {
   .figure {
     width: 600px;
     height: 600px;
@@ -107,10 +97,21 @@ const onEnter = () => {
     background: rgba(255, 130, 0, 0.09);
     margin-top: 38px;
     position: relative;
-    clip-path: inset(0px calc(600px - 390px - 105px));
-    margin-left: calc((-600px + 100%)/2);
   }
 }
+/*ディスプレイに合わせてcss（背景図形）を変化*/
+@media (max-width: 600px) {
+  .figure {
+    width: 100vw;
+    height: 600px;
+    flex-shrink: 0;
+    background-color: rgba(255, 130, 0, 0.09);
+    margin-top: 38px;
+    position: relative;
+    clip-path: circle(300px);
+  }
+}
+
 .posi {
   position: absolute;
   top: 100px;
