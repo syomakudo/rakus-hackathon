@@ -85,8 +85,8 @@ const onEnter = () => {
 @import url(http://fonts.googleapis.com/earlyaccess/notosansjp.css);
 .background {
   background-color: #FFFFF5;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
 }
 @media (min-width: 600px) {
   .figure {
