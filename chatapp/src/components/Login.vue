@@ -97,7 +97,7 @@ const onEnter = () => {
   margin-top: 38px;
   position: relative;
 }
-
+/*ディスプレイに合わせてcss（背景図形）を変化*/
 @media (max-width:600px) {
   .figure {
     width: 600px;
@@ -107,8 +107,8 @@ const onEnter = () => {
     background: rgba(255, 130, 0, 0.09);
     margin-top: 38px;
     position: relative;
-    clip-path: inset(0px 105px);
-    margin-left: -105px;
+    clip-path: inset(0px calc(600px - 390px - 105px));
+    margin-left: calc((-600px + 100%)/2);
   }
 }
 .posi {
