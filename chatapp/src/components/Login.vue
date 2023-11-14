@@ -46,9 +46,7 @@ const onEnter = () => {
 <template>
   <v-app class="background">
   <div class="mx-auto">
-    <svg xmlns="http://www.w3.org/2000/svg" class="figure" width="390" height="574" viewBox="0 0 390 574" fill="none">
-    <path fill-rule="evenodd" clip-rule="evenodd" d="M0 503.541V92.2175C35.0791 34.4797 102.218 0 197.146 0C292.551 0 355.645 34.5543 390 87.5423V499.517C354.83 544.804 292.904 574 197.146 574C94.2279 574 32.9298 547.287 0 503.541Z" fill="#FF8200" fill-opacity="0.09"/>
-    </svg>
+    <div class="figure"></div>
     <div class="posi">
       <div class="title">Family Chat</div>
       <div class="mt-10">
@@ -91,10 +89,27 @@ const onEnter = () => {
   height: 100vh;
 }
 .figure {
-  width: 390px;
-  height: 574px;
+  width: 600px;
+  height: 600px;
+  flex-shrink: 0;
+  border-radius: 600px;
+  background: rgba(255, 130, 0, 0.09);
+  margin-top: 38px;
   position: relative;
-  margin-top: 43px;
+}
+
+@media (max-width:600px) {
+  .figure {
+    width: 600px;
+    height: 600px;
+    flex-shrink: 0;
+    border-radius: 600px;
+    background: rgba(255, 130, 0, 0.09);
+    margin-top: 38px;
+    position: relative;
+    clip-path: inset(0px 105px);
+    margin-left: -105px;
+  }
 }
 .posi {
   position: absolute;
