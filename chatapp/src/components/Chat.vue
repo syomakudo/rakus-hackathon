@@ -19,12 +19,21 @@ const socket = socketManager.getInstance();
 // #region reactive variable
 const chatContent = ref("");
 const chatList = reactive([]);
+const disabledButton = ref(true);
 let messageId = 0; // メッセージIDを追跡するための変数
 // #endregion
 
 // #region watch
 watch(isReverseChat, (newValue) => {
   reverseChat();
+});
+
+watch(chatContent, (newValue) => {
+  if (newValue.replace(/\s+/g, "") !== "") {
+    disabledButton.value = false;
+  } else {
+    disabledButton.value = true;
+  }
 });
 // #endregion
 
@@ -58,19 +67,14 @@ function getCurrentTimestamp() {
 // #region browser event handler
 // 投稿メッセージをサーバに送信する
 const onPublish = () => {
-  if (chatContent.value.replace(/\s+/g, "") !== "") {
-    const message = {
-      id: messageId++,
-      userName: userName.value,
-      text: chatContent.value,
-      timestamp: getCurrentTimestamp(),
-    };
-    socket.emit("publishEvent", message);
-  }
+  const message = {
+    id: messageId++,
+    userName: userName.value,
+    text: chatContent.value,
+    timestamp: getCurrentTimestamp(),
+  };
+  socket.emit("publishEvent", message);
 
-  if (chatContent.value.replace(/\s+/g, "") == "") {
-    alert("投稿文を入力してください");
-  }
   // 入力欄を初期化
   chatContent.value = "";
 };
@@ -87,23 +91,18 @@ const onExit = () => {
 
 // メモを画面上に表示する
 const onMemo = () => {
-  if (chatContent.value.replace(/\s+/g, "") !== "") {
-    const memoMessage = {
-      id: messageId++, // メッセージIDを追跡するための変数をインクリメント
-      userName: userName.value, // ここでユーザー名を追加
-      text: chatContent.value, // メモの内容
-      timestamp: getCurrentTimestamp(),
-      memo: true,
-    };
-    // メモの内容を表示
-    if (isReverseChat.value) {
-      chatList.push(memoMessage); // chatListの末尾に追加
-    } else chatList.unshift(memoMessage); // chatListの先頭に追加
-  }
+  const memoMessage = {
+    id: messageId++, // メッセージIDを追跡するための変数をインクリメント
+    userName: userName.value, // ここでユーザー名を追加
+    text: chatContent.value, // メモの内容
+    timestamp: getCurrentTimestamp(),
+    memo: true,
+  };
+  // メモの内容を表示
+  if (isReverseChat.value) {
+    chatList.push(memoMessage); // chatListの末尾に追加
+  } else chatList.unshift(memoMessage); // chatListの先頭に追加
 
-  if (chatContent.value.replace(/\s+/g, "") == "") {
-    alert("メモ文を入力してください");
-  }
   // 入力欄を初期化
   chatContent.value = "";
 };
@@ -314,6 +313,7 @@ const reverseChat = () => {
             <v-btn
               block
               class="buttons"
+              :disabled="disabledButton"
               size="70%"
               color="#FFD600"
               flat
@@ -326,6 +326,7 @@ const reverseChat = () => {
             <v-btn
               block
               class="buttons"
+              :disabled="disabledButton"
               size="70%"
               color="#FFD600"
               flat
@@ -353,6 +354,7 @@ const reverseChat = () => {
             <v-btn
               block
               class="buttons"
+              :disabled="disabledButton"
               size="70%"
               color="#FFD600"
               flat
