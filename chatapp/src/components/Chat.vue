@@ -75,6 +75,9 @@ const onPublish = () => {
   };
   socket.emit("publishEvent", message);
 
+  if (chatContent.value.replace(/\s+/g, "") == "") {
+    alert("投稿文を入力してください");
+  }
   // 入力欄を初期化
   chatContent.value = "";
 };
