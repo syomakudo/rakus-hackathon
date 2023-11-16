@@ -12,6 +12,10 @@ const router = useRouter();
 const socket = socketManager.getInstance();
 // #endregion
 
+const message = reactive({
+  entryMessage: "",
+});
+
 // #region reactive variable
 const inputUserName = ref("");
 // #endregion
@@ -27,27 +31,8 @@ const onEnter = () => {
   }
 
   // 入室メッセージを送信
-  const dateobj = new Date();
-  const enterTime =
-    dateobj.getFullYear() +
-    "/" +
-    (dateobj.getMonth() + 1) +
-    "/" +
-    dateobj.getDate() +
-    " " +
-    dateobj.getHours() +
-    ":" +
-    dateobj.getMinutes() +
-    ":" +
-    dateobj.getSeconds();
-
-  const enterMessage = {
-    userName: inputUserName.value,
-    text: `${inputUserName.value}さんが入室しました。`,
-    timestamp: enterTime,
-  };
-
-  socket.emit("enterEvent", enterMessage);
+  message.entryMessage = inputUserName.value + "さんが入室しました。";
+  socket.emit("enterEvent", message.entryMessage);
 
   // 全体で使用するnameに入力されたユーザー名を格納
   userName.value = inputUserName.value;
@@ -60,21 +45,10 @@ const onEnter = () => {
 
 <template>
   <v-app class="background">
-    <div class="mx-auto my-5 px-4">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        class="figure"
-        viewBox="0 0 459 575"
-        fill="none"
-      >
-        <path
-          d="M443.1 282.986C488.1 428.5 443.1 574.5 229.1 574.5C-0.399704 574.5 -22.8997 441.5 14.6003 282.986C-26.8997 118 53.6003 0 229.1 0C418.6 4.76837e-06 480.6 136.5 443.1 282.986Z"
-          fill="#FF8200"
-          fill-opacity="0.09"
-        />
-      </svg>
+    <div class="mx-auto">
+      <div class="figure"></div>
       <div class="posi">
-        <h1 class="title">Family Chat</h1>
+        <div class="title">Family Chat</div>
         <div class="mt-10">
           <p class="nametext">お名前</p>
           <input
@@ -104,12 +78,10 @@ const onEnter = () => {
             flat
             height="48"
             width="242"
-            color="#FF8200"
-            class="buttonLogin"
-            @click="onEnter"
+            class="buttonDialog"
+            @click="dialog = false"
+            >閉じる</v-btn
           >
-            入室する
-          </v-btn>
         </div>
       </v-dialog>
     </div>
@@ -120,13 +92,19 @@ const onEnter = () => {
 @import url(http://fonts.googleapis.com/earlyaccess/notosansjp.css);
 .background {
   background-color: #fffff5;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
 }
-.figure {
-  width: 459px;
-  height: 575px;
-  position: relative;
+@media (min-width: 600px) {
+  .figure {
+    width: 600px;
+    height: 600px;
+    flex-shrink: 0;
+    border-radius: 600px;
+    background: rgba(255, 130, 0, 0.09);
+    margin-top: 38px;
+    position: relative;
+  }
 }
 /*ディスプレイに合わせてcss（背景図形）を変化*/
 @media (max-width: 600px) {
